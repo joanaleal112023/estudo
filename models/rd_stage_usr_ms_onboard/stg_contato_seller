@@ -1,0 +1,3 @@
+select * from
+{{ source('dbt_jleal_origem_onb_sellers', 'tb_contato_seller') }}
+
