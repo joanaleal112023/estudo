@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: onb_sellers
+    database: northwind-indicium-401003
+    schema: dbt_jleal_origem_onb_sellers 
+    description: Tabelas do Onboarding de Sellers
+    tables:
+      - name: tb_contato_seller
