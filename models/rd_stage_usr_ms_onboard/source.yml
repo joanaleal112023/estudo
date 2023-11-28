@@ -7,3 +7,8 @@ sources:
     description: Tabelas do Onboarding de Sellers
     tables:
       - name: tb_contato_seller
+        columns:
+          - name: id_contato
+            tests:
+              - unique
+              - not_null
