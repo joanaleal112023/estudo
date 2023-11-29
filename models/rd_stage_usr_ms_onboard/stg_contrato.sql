@@ -16,8 +16,8 @@ renamed as (
         , CAST(nm_nome_arquivo as string) as nm_nome_arquivo 
         , CAST(op_type as string) as op_type
         , dt_process_stage
-        , cast(21 as bigint) as sk_sistema_origem
-        -- , sysdate dh_atualiz_dbt
+        , CAST(0 as string) as sk_sistema_origem
+        , CAST(0 as string) as DH_ATUALIZ_DW
     from source
 
 )
