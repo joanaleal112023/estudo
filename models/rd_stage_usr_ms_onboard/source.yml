@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: onb_sellers
     database: northwind-indicium-401003
-    schema: dbt_jleal_origem_onb_sellers 
+    schema: dbt_jleal_origem_onb_sellers
     description: Tabelas do Onboarding de Sellers
     tables:
       - name: tb_contato_seller
@@ -13,3 +13,37 @@ sources:
               - unique
               - not_null
 
+      - name: tb_contrato
+        columns:
+          - name: id_contrato
+            tests:
+              - unique
+              - not_null
+             
+      - name: tb_contrato_seller
+        columns:
+          - name: id_contrato_seller
+            tests:
+              - unique
+              - not_null
+
+      - name: tb_historico_status_seller
+        columns:
+          - name: id_historico_status_seller
+            tests:
+              - unique
+              - not_null            
+
+      - name: tb_loja
+        columns:
+          - name: id_loja
+            tests:
+              - unique
+              - not_null            
+
+      - name: tb_seller
+        columns:
+          - name: id_seller
+            tests:
+              - unique
+              - not_null  
