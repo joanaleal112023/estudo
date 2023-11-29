@@ -22,7 +22,9 @@ renamed as (
         op_type,
         dt_process_stage,
         partition_ano_mes
-
+        , cast(21 as bigint) as sk_sistema_origem
+        -- , sysdate dh_atualiz_dbt
+        
     from source
 
 )
