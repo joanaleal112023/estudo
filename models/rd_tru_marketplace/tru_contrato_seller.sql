@@ -9,6 +9,7 @@ stg_contrato_seller as (
 renamed as (
 
     select
+        CAST(id_contrato_seller as bigint) as sk_contrato_seller,
         id_contrato_seller,
         dt_criacao,
         id_seller,

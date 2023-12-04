@@ -9,6 +9,7 @@ stg_historico_status_seller as (
 renamed as (
 
     select
+        CAST(id_historico_status_seller as bigint) as sk_historico_status_seller,
         id_historico_status_seller,
         id_seller,
         nm_status,

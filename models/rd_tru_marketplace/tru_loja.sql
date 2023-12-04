@@ -9,6 +9,7 @@ stg_loja as (
 renamed as (
 
     select
+        CAST(id_loja as bigint) as sk_loja,
         id_loja,
         nm_fantasia,
         nm_nome_loja,
