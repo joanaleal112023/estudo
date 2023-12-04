@@ -9,17 +9,16 @@ source as (
 renamed as (
 
     select
-        id_historico_status_seller,
-        id_seller,
-        nm_status,
-        nm_journey,
-        nm_observacao,
-        dt_criacao,
-        op_type,
-        dt_process_stage,
-        partition_ano_mes
-        , cast(21 as bigint) as sk_sistema_origem
-        -- , sysdate dh_atualiz_dbt
+        id_historico_status_seller
+        , id_seller
+        , nm_status
+        , nm_journey
+        , nm_observacao
+        , dt_criacao
+        , CAST(op_type as string) as op_type
+        , dt_process_stage
+        , CAST(0 as string) as sk_sistema_origem
+        , CAST(0 as string) as DH_ATUALIZ_DBT
         
     from source
 

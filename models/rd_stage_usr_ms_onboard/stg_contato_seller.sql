@@ -8,10 +8,9 @@ with
             , CAST(ds_tipo as string) as ds_tipo
             , CAST(op_type as string) as op_type
             , dt_process_stage
-            , cast(21 as bigint) as sk_sistema_origem
-           -- , sysdate dh_atualiz_dbt
+            , CAST(0 as string) as sk_sistema_origem
+            , CAST(0 as string) as DH_ATUALIZ_DBT
         from {{ source('onb_sellers', 'tb_contato_seller') }}
  )
 
 select * from source_stg_contato_seller
-

@@ -9,16 +9,18 @@ stg_contrato_seller as (
 renamed as (
 
     select
-        CAST(id_contrato_seller as bigint) as sk_contrato_seller,
-        id_contrato_seller,
-        dt_criacao,
-        id_seller,
-        id_contrato,
-        op_type,
-        dt_process_stage,
-        partition_ano_mes
-        , cast(21 as bigint) as sk_sistema_origem
-        -- , sysdate dh_atualiz_dbt
+        CAST(id_contrato_seller as bigint) as sk_contrato_seller
+        , CAST(id_contrato_seller as bigint) as cd_contrato_seller
+        , dt_criacao
+        , CAST(id_seller as bigint) as cd_seller
+        , CAST(id_contrato as bigint) as cd_contrato
+        , CAST(0 as string) as fl_ultima_versao
+        , CAST(0 as string) as dt_data_de
+        , CAST(0 as string) as dt_data_ate
+        , CAST(op_type as string) as op_type
+        , CAST(0 as string) as sk_sistema_origem
+        , CAST(0 as string) as DH_INCLUSAO_DW
+        , CAST(0 as string) as DH_ATUALIZ_DW
 
     from stg_contrato_seller
 

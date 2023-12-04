@@ -1,8 +1,8 @@
 with 
     stg_contato_seller as (
         select 
-            CAST(id_contato as bigint) as sk_contato_seller
-            , CAST(id_contato as bigint) as cd_contato_seller
+            CAST(id_contato as bigint) as sk_contato
+            , CAST(id_contato as bigint) as cd_contato
             , CAST(tx_email as string) as email_seller
             , CAST(nm_nome_contato as string) as nm_nome_seller
             , CAST(tx_telefone as string) as telefone_seller
