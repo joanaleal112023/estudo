@@ -14,7 +14,7 @@ renamed as (
         , nm_status
         , nm_journey
         , nm_observacao
-        , dt_criacao
+        , CAST(dt_criacao as timestamp) dt_criacao
         , CAST(op_type as string) as op_type
         , dt_process_stage
         , CAST(0 as string) as sk_sistema_origem
