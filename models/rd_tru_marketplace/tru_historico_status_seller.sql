@@ -10,8 +10,8 @@ renamed as (
 
     select
         CAST(id_historico_status_seller as bigint) as sk_historico_status_seller
-        , id_historico_status_seller
-        , id_seller
+        , CAST(id_historico_status_seller as bigint) as cd_historico_status_seller
+        , CAST(id_seller as bigint) as cd_seller
         , nm_status
         , nm_journey
         , nm_observacao

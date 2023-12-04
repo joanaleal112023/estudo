@@ -10,7 +10,7 @@ renamed as (
 
     select
         CAST(id_loja as bigint) as sk_loja
-        , id_loja
+        , CAST(id_loja as bigint) as cd_loja
         , nm_fantasia
         , nm_nome_loja
         , fl_produtos_especiais
