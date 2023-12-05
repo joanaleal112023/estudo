@@ -2,20 +2,44 @@ with
 
     dim_status_seller as (
         select
-            b.sk_historico_status_seller
-            , b.cd_historico_status_seller
-            , b.cd_seller
-            , b.nm_status
-            , b.nm_journey
-            , b.nm_observacao
-            , b.dt_criacao
-            , b.fl_ultima_versao
-            , b.dt_data_de
-            , b.dt_data_ate
-            , b.op_type
-            , b.sk_sistema_origem
-            , b.DH_INCLUSAO_DW
-            , b.DH_ATUALIZ_DW
+            sk_historico_status_seller
+            , cd_historico_status_seller
+            , cd_seller
+            , nm_status
+            , nm_journey
+            , nm_observacao
+            , dt_criacao
+            , fl_ultima_versao
+            , dt_data_de
+            , dt_data_ate
+            , op_type
+            , sk_sistema_origem
+            , DH_INCLUSAO_DW
+            , DH_ATUALIZ_DW
+        from {{ref('dim_status_seller')}} 
+    ),
+
+
+    dim_seller as (
+        select 
+            sk_seller
+            , a.cd_seller
+            , a.nm_cnpj
+            , a.cd_endereco
+            , a.cd_contato
+            , a.cd_loja
+            , a.ds_status_seller
+            , a.dt_atualizacao
+            , a.dt_criacao
+            , a.fl_email_enviado
+            , a.id_gcertifica
+            , a.sk_sistema_origem
+            , a.dt_process_stage
+            , a.DH_INCLUSAO_DW
+            , a.DH_ATUALIZ_DW
+            , a.email_seller
+            , a.nm_nome_seller
+            , a.telefone_seller
             , max((CASE WHEN b.cd_seller IS NULL THEN 0 ELSE 1 END)) completeQuantity
             , sum((CASE WHEN b.nm_status in ('WAITING_APPROVE') THEN 1 ELSE 0 END)) waitingApproveQuantity
             , sum((CASE WHEN b.nm_status in ('APPROVED') THEN 1 ELSE 0 END)) ApprovedQuantity
@@ -31,46 +55,30 @@ with
             , max((SELECT dt_criacao FROM {{ref('dim_status_seller')}} a WHERE nm_status in ('DONE') AND a.cd_seller = b.cd_seller)) done_time
             , max((SELECT dt_criacao FROM {{ref('dim_status_seller')}} a WHERE nm_status in ('INTEGRATION') AND a.cd_seller = b.cd_seller)) integration_time
             , max((SELECT dt_criacao FROM {{ref('dim_status_seller')}} a WHERE nm_status in ('REJECTED') AND a.cd_seller = b.cd_seller)) rejected_time
-        from {{ref('dim_status_seller')}} b
-        GROUP BY
-            b.sk_historico_status_seller
-            , b.cd_historico_status_seller
-            , b.cd_seller
-            , b.nm_status
-            , b.nm_journey
-            , b.nm_observacao
-            , b.dt_criacao
-            , b.fl_ultima_versao
-            , b.dt_data_de
-            , b.dt_data_ate
-            , b.op_type
-            , b.sk_sistema_origem
-            , b.DH_INCLUSAO_DW
-            , b.DH_ATUALIZ_DW
-
-    ),
-
-    dim_seller as (
-        select 
+        from {{ref('dim_seller')}} a
+        left join {{ref('dim_status_seller')}} b on a.cd_seller = b.cd_seller
+        where 1=1
+        group by 
             sk_seller
-            , cd_seller
-            , nm_cnpj
-            , cd_endereco
-            , cd_contato
-            , cd_loja
-            , ds_status_seller
-            , dt_atualizacao
-            , dt_criacao
-            , fl_email_enviado
-            , id_gcertifica
-            , sk_sistema_origem
-            , dt_process_stage
-            , DH_INCLUSAO_DW
-            , DH_ATUALIZ_DW
-            , email_seller
-            , nm_nome_seller
-            , telefone_seller
-        from {{ref('dim_seller')}}
+            , a.cd_seller
+            , a.nm_cnpj
+            , a.cd_endereco
+            , a.cd_contato
+            , a.cd_loja
+            , a.ds_status_seller
+            , a.dt_atualizacao
+            , a.dt_criacao
+            , a.fl_email_enviado
+            , a.id_gcertifica
+            , a.sk_sistema_origem
+            , a.dt_process_stage
+            , a.DH_INCLUSAO_DW
+            , a.DH_ATUALIZ_DW
+            , a.email_seller
+            , a.nm_nome_seller
+            , a.telefone_seller
+
+
     ),
 
     dim_loja as (
@@ -121,29 +129,43 @@ with
         select 
             a.sk_seller
             , a.cd_seller
-            , b.sk_historico_status_seller
-            , b.cd_historico_status_seller
-            , c.sk_loja
-            , c.cd_loja
-            , b.incomplete_time
-            , b.complete_time
-            , b.waitingapprove_time
-            , b.approved_time
-            , b.onboard_time
-            , b.done_time
-            , b.integration_time
-            , b.rejected_time
-            --, (b.complete_time - b.incomplete_time) delta_complete
-            --, (waitingapprove_time - complete_time) delta_waitingapprove
-            --, (approved_time - waitingapprove_time) delta_approved
-            --, (onboard_time - approved_time) delta_onboard
-            --, (done_time - onboard_time) delta_done
-            --, (integration_time - done_time) delta_integration
-            --, (rejected_time - waitingapprove_time) delta_reject
+            , b.sk_loja
+            , b.cd_loja
+            , a.ds_status_seller
+            , a.incomplete_time
+            , a.complete_time
+            , a.waitingapprove_time
+            , a.approved_time
+            , a.onboard_time
+            , a.done_time
+            , a.integration_time
+            , a.rejected_time
+            , (complete_time - incomplete_time) delta_complete
+            , (waitingapprove_time - complete_time) delta_waitingapprove
+            , (approved_time - waitingapprove_time) delta_approved
+            , (onboard_time - approved_time) delta_onboard
+            , (done_time - onboard_time) delta_done
+            , (integration_time - done_time) delta_integration
+            , (rejected_time - waitingapprove_time) delta_reject
         from dim_seller a 
-        left join dim_status_seller b on a.cd_seller = b.cd_seller
-        left join dim_loja c on a.cd_loja = c.cd_loja
+        left join dim_loja b on a.cd_loja = b.cd_loja
+        where 1=1
+        --group by 
+           -- a.sk_seller
+           -- , a.cd_seller
+           -- , b.sk_historico_status_seller
+           -- , b.cd_historico_status_seller
+           -- , c.sk_loja
+           -- , c.cd_loja
+           -- , b.incomplete_time
+           -- , b.complete_time
+           -- , b.waitingapprove_time
+           -- , b.approved_time
+           -- , b.onboard_time
+           -- , b.done_time
+           -- , b.integration_time
+           -- , b.rejected_time
     )
-
     select *
     from final
+
